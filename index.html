@@ -3,180 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sankalpa Ghimire | Software Developer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Sankalpa Ghimire | Creative Developer & Engineer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
+        /* ========================================
+           PHASE 1: DESIGN TOKENS & CORE SETUP
+           ========================================
+        */
         :root {
-            --bg: #030712;
-            --card-bg: #111827;
-            --border: rgba(255, 255, 255, 0.1);
-            --accent: #6366f1;
-            --text-main: #f9fafb;
-            --text-dim: #9ca3af;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --secondary: #f43f5e;
+            --bg-dark: #030303;
+            --card-glass: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            outline: none;
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-dark);
             color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
             line-height: 1.6;
-            padding: 2rem;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        /* ========================================
+           PHASE 2: THE INTERACTIVE ENGINE (CSS)
+           ========================================
+        */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            filter: blur(2px);
         }
 
-        /* Header Navigation */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ========================================
+           PHASE 3: UI COMPONENTS (MODERN TECH)
+           ========================================
+        */
         nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-glass);
         }
 
-        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; }
-        
-        .contact-pill {
-            background: var(--accent);
-            padding: 8px 20px;
-            border-radius: 50px;
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
             text-decoration: none;
-            color: white;
-            font-weight: 600;
+            margin-left: 40px;
+            font-weight: 500;
             font-size: 0.9rem;
-            transition: transform 0.2s;
+            transition: var(--transition-smooth);
         }
 
-        /* Bento Grid System */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: auto;
-            gap: 1.5rem;
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary-glow);
         }
 
-        .bento-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 2rem;
-            transition: all 0.3s ease;
+        /* Hero Styling */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 15%;
             position: relative;
+        }
+
+        .hero-label {
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -4px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 span {
+            display: block;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+        }
+
+        /* Project Grid */
+        .section-container {
+            padding: 100px 10%;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 30px;
+        }
+
+        .card-large {
+            grid-column: span 8;
+            background: var(--card-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 40px;
+            padding: 60px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
             overflow: hidden;
+            position: relative;
         }
 
-        .bento-item:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        .card-small {
+            grid-column: span 4;
+            background: var(--card-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 40px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* Specific Tile Adjustments */
-        .hero-tile { grid-column: span 2; grid-row: span 2; display: flex; flex-direction: column; justify-content: center; }
-        .project-tile { grid-column: span 2; }
-        .skills-tile { grid-column: span 1; }
-        .edu-tile { grid-column: span 1; }
-        .location-tile { grid-column: span 1; }
-        .social-tile { grid-column: span 1; display: flex; justify-content: space-around; align-items: center; }
-
-        /* Typography & Content */
-        h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
-        h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        p { color: var(--text-dim); }
-        .tag { background: rgba(99, 102, 241, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; margin-right: 5px; }
-
-        .project-meta { margin-top: 1.5rem; display: flex; gap: 10px; }
-        
-        /* Stat Number */
-        .stat { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
-
-        @media (max-width: 900px) {
-            .bento-grid { grid-template-columns: 1fr; }
-            .hero-tile, .project-tile, .skills-tile, .edu-tile { grid-column: span 1; }
-            h1 { font-size: 2.5rem; }
+        .card-large:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--primary);
+            transform: translateY(-10px);
         }
+
+        /* ========================================
+           PHASE 4: CONTACT SYSTEM (EXTRA)
+           ========================================
+        */
+        .contact-wrapper {
+            background: linear-gradient(135deg, #0a0a0a 0%, #030303 100%);
+            border-radius: 50px;
+            padding: 80px;
+            border: 1px solid var(--border-glass);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-glass);
+            padding: 15px 0;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 0;
+            top: 15px;
+            color: var(--text-dim);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .input-group input:focus ~ label, 
+        .input-group input:valid ~ label {
+            top: -15px;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 10px 30px var(--primary-glow);
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px var(--primary-glow);
+        }
+
+        .whatsapp-float {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #25D366;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 40px;
+        }
+
+        /* ========================================
+           PHASE 5: RESPONSIVE & UTILS
+           ========================================
+        */
+        @media (max-width: 1024px) {
+            .grid-layout { display: flex; flex-direction: column; }
+            .contact-wrapper { grid-template-columns: 1fr; padding: 40px; }
+            .hero h1 { font-size: 4rem; }
+        }
+
     </style>
 </head>
 <body>
 
-<div class="container">
+    <canvas id="canvas-bg"></canvas>
+    
+    <div class="custom-cursor" id="cursor"></div>
+
     <nav>
-        <div class="logo">SANKALPA.G</div>
-        <a href="mailto:contact@example.com" class="contact-pill">Get in touch</a>
+        <div class="nav-logo">SANKALPA</div>
+        <div class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
     </nav>
 
-    <div class="bento-grid">
-        <div class="bento-item hero-tile">
-            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem;">Full-Stack Developer</p>
-            <h1>Building digital tools for the future.</h1>
-            <p>I specialize in Python, React, and system automation. Currently focusing on impactful healthcare solutions and AI interaction.</p>
-        </div>
+    <main>
+        <section class="hero">
+            <span class="hero-label">Available for 2026 Projects</span>
+            <h1>Digital <span>Architect.</span> Developer.</h1>
+            <p style="max-width: 500px; color: var(--text-dim); font-size: 1.2rem;">
+                Crafting high-impact systems like <b>DonateNow</b> and <b>Aria AI</b> with a focus on human experience and technical precision.
+            </p>
+        </section>
 
-        <div class="bento-item project-tile">
-            <span class="tag">Active Project</span>
-            <h2>DonateNow</h2>
-            <p>A real-time blood donation platform for Nepal, bridging the gap between hospitals and donors through live inventory tracking.</p>
-            <div class="project-meta">
-                <span class="tag">React</span> <span class="tag">Node.js</span> <span class="tag">PostgreSQL</span>
+        <section class="section-container" id="work">
+            <h2 style="font-size: 3rem; margin-bottom: 50px;">Selected Logs_</h2>
+            <div class="grid-layout">
+                <div class="card-large">
+                    <span class="hero-label" style="color: #25D366;">Project 01</span>
+                    <h2 style="font-size: 2.5rem; margin: 20px 0;">DonateNow</h2>
+                    <p style="color: var(--text-dim); font-size: 1.1rem; max-width: 80%;">
+                        A real-time healthcare ecosystem for Nepal. Designed to bridge the gap between hospitals and donors using live inventory synchronization and automated alerts.
+                    </p>
+                    <div style="margin-top: 40px; display: flex; gap: 15px;">
+                        <span style="border: 1px solid var(--border-glass); padding: 5px 15px; border-radius: 50px; font-size: 0.8rem;">React</span>
+                        <span style="border: 1px solid var(--border-glass); padding: 5px 15px; border-radius: 50px; font-size: 0.8rem;">Node.js</span>
+                    </div>
+                </div>
+
+                <div class="card-small">
+                    <div>
+                        <span class="hero-label">Project 02</span>
+                        <h3>Aria AI</h3>
+                    </div>
+                    <p style="color: var(--text-dim); margin: 20px 0;">Voice-controlled companion for desktop automation.</p>
+                    <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 700;">Read Case Study -></a>
+                </div>
+
+                <div class="card-small" style="background: var(--primary); color: white;">
+                    <h3>Education</h3>
+                    <p style="margin: 20px 0;">CS Specialization <br> Completed Class 12</p>
+                    <h2 style="font-size: 3rem;">3.02</h2>
+                    <p>GPA Score</p>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="bento-item skills-tile">
-            <h2>Arsenal</h2>
-            <p>Python</p>
-            <p>JavaScript</p>
-            <p>Bash</p>
-            <p>Linux (Kali)</p>
-        </div>
+        <section class="section-container" id="contact">
+            <div class="contact-wrapper">
+                <div>
+                    <h2 style="font-size: 4rem; line-height: 1; margin-bottom: 30px;">Let's start <br><span style="color: var(--primary);">the signal.</span></h2>
+                    <p style="color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px;">
+                        Based in Tilottama, Nepal. Ready for global collaboration.
+                    </p>
+                    
+                    <a href="https://wa.me/9779746881106" class="whatsapp-float">
+                        <i class="fab fa-whatsapp" style="font-size: 2rem;"></i>
+                        Secure WhatsApp: +977 9746881106
+                    </a>
+                    
+                    <div style="margin-top: 50px;">
+                        <p style="font-weight: 800;">E-mail</p>
+                        <p style="color: var(--text-dim);">sankalpaghimire19@gmail.com</p>
+                    </div>
+                </div>
 
-        <div class="bento-item project-tile">
-            <span class="tag">AI & Voice</span>
-            <h2>Aria AI</h2>
-            <p>A personal AI companion designed for desktop automation and human-like voice interaction using advanced NLP.</p>
-            <div class="project-meta">
-                <span class="tag">Python</span> <span class="tag">NLP</span> <span class="tag">Automation</span>
+                <div class="contact-form">
+                    <form action="https://formspree.io/f/sankalpaghimire19@gmail.com" method="POST">
+                        <div class="input-group">
+                            <input type="text" name="name" required>
+                            <label>Full Name</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" name="email" required>
+                            <label>Email Address</label>
+                        </div>
+                        <div class="input-group">
+                            <textarea name="message" rows="4" required></textarea>
+                            <label>Project Details</label>
+                        </div>
+                        <button type="submit" class="submit-btn">TRANSMIT REQUEST</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </section>
+    </main>
 
-        <div class="bento-item edu-tile">
-            <h2>Education</h2>
-            <p>CS Specialization</p>
-            <div class="stat">3.02</div>
-            <p>GPA Score</p>
+    <footer style="padding: 100px 10%; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
+        <p style="color: var(--text-dim); font-size: 0.8rem;">© 2026 SANKALPA GHIMIRE. ALL RIGHTS RESERVED.</p>
+        <div class="social-links">
+            <a href="https://github.com/sankalpa021" style="color: #fff; margin-left: 20px; font-size: 1.2rem;"><i class="fab fa-github"></i></a>
+            <a href="#" style="color: #fff; margin-left: 20px; font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
         </div>
-
-        <div class="bento-item location-tile">
-            <h2>IELTS Prep</h2>
-            <p>Currently refining English proficiency for global opportunities.</p>
-            <i class="fas fa-globe-americas" style="font-size: 2rem; margin-top: 1rem; color: var(--accent);"></i>
-        </div>
-
-        <div class="bento-item social-tile">
-            <a href="https://github.com/sankalpa021" style="color: white; font-size: 1.5rem;"><i class="fab fa-github"></i></a>
-            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
-            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
-        </div>
-
-        <div class="bento-item location-tile">
-            <h2>Location</h2>
-            <p>Lumbini, Nepal</p>
-            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Available for remote work.</p>
-        </div>
-    </div>
-
-    <footer style="text-align: center; margin-top: 4rem; color: var(--text-dim); font-size: 0.8rem;">
-        © 2026 Sankalpa Ghimire. Built with focus and precision.
     </footer>
-</div>
 
+    <script>
+        // --- Particle Engine ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(99, 102, 241, 0.2)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        createParticles();
+        animate();
+
+        // --- Custom Cursor ---
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .card-large').forEach(elem => {
+            elem.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(3)';
+                cursor.style.background = 'rgba(99, 102, 241, 0.1)';
+            });
+            elem.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.background = 'transparent';
+            });
+        });
+
+        // --- Smooth Section Reveal ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card-large, .card-small, .hero').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(50px)";
+            el.style.transition = "all 1s cubic-bezier(0.16, 1, 0.3, 1)";
+            observer.observe(el);
+        });
+
+    </script>
 </body>
 </html>
