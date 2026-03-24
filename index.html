@@ -1,44 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Site</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sankalpa Ghimire | TERMINAL_0x4B</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
     <style>
+        :root {
+            --color-neon: #00ff9c;
+            --color-dark: #050505;
+            --color-accent: #00644d;
+            --color-text-dim: #9dffd9;
+            --glow: 0 0 10px rgba(0, 255, 156, 0.4);
+        }
+
+        * { box-sizing: border-box; cursor: crosshair; }
+
         body {
-            background-color: #ffffff;
-            color: #000000;
-            transition: background-color 0.5s, color 0.5s;
+            margin: 0;
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--color-dark);
+            color: var(--color-neon);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
-        body.dark {
-            background-color: #000000;
-            color: #ffffff;
+
+        /* --- CRT SCANLINE EFFECT --- */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 100, 0.06));
+            z-index: 100;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
         }
-        /* Additional styles for animations and smooth transitions */
-        .toggle-btn {
-            cursor: pointer;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
-            transition: background-color 0.3s;
+
+        /* --- MATRIX CANVAS --- */
+        #matrix {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            opacity: 0.15;
         }
-        .toggle-btn:hover {
-            background-color: #0056b3;
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+            position: relative;
         }
+
+        /* --- NAV ENHANCEMENT --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 50;
+            background: rgba(5, 5, 5, 0.9);
+            border-bottom: 1px solid var(--color-accent);
+            backdrop-filter: blur(5px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: auto;
+            padding: 15px 20px;
+        }
+
+        nav a {
+            color: var(--color-neon);
+            text-decoration: none;
+            text-transform: lowercase;
+            margin-left: 15px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            text-shadow: var(--glow);
+            letter-spacing: 1px;
+        }
+
+        /* --- HERO & TYPING --- */
+        .hero {
+            padding: 120px 20px 60px;
+            text-align: center;
+        }
+
+        .glitch {
+            font-size: 4rem;
+            font-weight: bold;
+            position: relative;
+            text-shadow: 0.05em 0 0 #00ff9c, -0.05em -0.025em 0 #ff00c1;
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 #00ff9c, -0.05em -0.025em 0 #ff00c1; }
+            14% { text-shadow: 0.05em 0 0 #00ff9c, -0.05em -0.025em 0 #ff00c1; }
+            15% { text-shadow: -0.05em -0.025em 0 #00ff9c, 0.025em 0.035em 0 #ff00c1; }
+            /* Add more frames for extra 'shiver' */
+        }
+
+        /* --- CARDS & ARSENAL --- */
+        .card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--color-accent);
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            border-color: var(--color-neon);
+            box-shadow: var(--glow);
+            transform: scale(1.01);
+        }
+
+        .tag {
+            border: 1px solid var(--color-accent);
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .tag:hover {
+            background: var(--color-neon);
+            color: var(--color-dark);
+        }
+
+        /* --- INPUT FIELD SIMULATION --- */
+        .terminal-input {
+            background: #000;
+            border-left: 5px solid var(--color-neon);
+            padding: 15px;
+            margin-top: 40px;
+            display: flex;
+        }
+
+        .terminal-input::before {
+            content: "guest@sankalpa:~$ ";
+            margin-right: 10px;
+        }
+
+        .typing-sim {
+            border-right: 8px solid var(--color-neon);
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        /* Socials */
+        .social-links a {
+            color: var(--color-neon);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover { transform: translateY(-5px); }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to My First Site!</h1>
-        <button class="toggle-btn" onclick="toggleTheme()">Toggle Dark/Light Theme</button>
-    </header>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark');
+
+<canvas id="matrix"></canvas>
+
+<header>
+    <nav>
+        <div class="logo">SANKALPA_GHIMIRE v2.0</div>
+        <div>
+            <a href="#home">/home</a>
+            <a href="#about">/about</a>
+            <a href="#skills">/skills</a>
+            <a href="#projects">/logs</a>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    <section id="home" class="hero">
+        <div class="glitch">SANKALPA GHIMIRE</div>
+        <p id="sub-title" style="font-size: 1.2rem; min-height: 1.5rem;"></p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+    </section>
+
+    <section id="about">
+        <h3><i class="fas fa-user-secret"></i> IDENT_STATUS</h3>
+        <div class="card">
+            <p>> MISSION: SECURING INFRASTRUCTURE VIA OFFENSIVE RESEARCH.</p>
+            <p>> SPECIALIZATION: PENETRATION TESTING & SYSTEM AUTOMATION.</p>
+            <p>> LOCATION: NEPAL [LUMBINI_NODE]</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h3><i class="fas fa-terminal"></i> LOADED_MODULES</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="card">
+                <h4>OFFENSIVE</h4>
+                <div class="tag">METASPLOIT</div>
+                <div class="tag">WIRESHARK</div>
+                <div class="tag">BURP_SUITE</div>
+            </div>
+            <div class="card">
+                <h4>DEVELOPMENT</h4>
+                <div class="tag">PYTHON</div>
+                <div class="tag">BASH</div>
+                <div class="tag">REACT.JS</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="terminal-input">
+        <span id="command-text"></span><span class="typing-sim"></span>
+    </div>
+</main>
+
+<footer>
+    <p style="text-align: center; opacity: 0.5; font-size: 0.7rem; padding: 40px;">
+        ENCRYPTED_CONNECTION_ESTABLISHED // 2026 // NO_LOGS_KEPT
+    </p>
+</footer>
+
+<script>
+    // --- MATRIX BACKGROUND ---
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(5, 5, 5, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ff9c";
+        ctx.font = fontSize + "px monospace";
+        for (let i = 0; i < drops.length; i++) {
+            const text = letters.charAt(Math.floor(Math.random() * letters.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
         }
-    </script>
+    }
+    setInterval(drawMatrix, 50);
+
+    // --- TYPING ANIMATION ---
+    const text = "Ethical Hacker | Security Researcher | Automation Expert";
+    let index = 0;
+    function typeText() {
+        if (index < text.length) {
+            document.getElementById("sub-title").innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeText, 70);
+        }
+    }
+    window.onload = typeText;
+
+    // --- RANDOM COMMAND SIMULATION ---
+    const commands = ["nmap -sV 192.168.1.1", "ssh admin@secure-node", "decrypt --force ./vault.dat", "ping 8.8.8.8"];
+    let cmdIdx = 0;
+    function rotateCommands() {
+        const cmd = commands[cmdIdx];
+        document.getElementById("command-text").innerText = cmd;
+        cmdIdx = (cmdIdx + 1) % commands.length;
+    }
+    setInterval(rotateCommands, 3000);
+</script>
+
 </body>
 </html>
